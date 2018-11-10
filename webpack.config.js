@@ -10,10 +10,6 @@ module.exports = {
         use: 'awesome-typescript-loader',
         exclude: /node_modules/
       },
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
-      },
       { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
     ]
   },
@@ -21,7 +17,7 @@ module.exports = {
     extensions: [ '.tsx', '.ts', '.js', '.json']
   },
   devServer:{
-    contentBase: path.resolve(__dirname, 'dist')
+    contentBase: path.resolve(__dirname, './')
   },
   output: {
     filename: 'bundle.js',
