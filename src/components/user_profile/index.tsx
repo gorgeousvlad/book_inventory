@@ -1,6 +1,6 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
-const userData = require('../../data/users.json');
+// const userData = require('../../data/users.json');
 
 interface MatchParams {
   id: string;
@@ -13,9 +13,10 @@ export class UserProfile extends React.Component<IUserProfileProps,{}> {
   render(){
     console.log(this.props)
     const { id } = this.props.match.params;
-    const {users} = userData
+    // const {users} = userData
     return (
-      <div>User: {users[id].name}</div>
+      // <div>User: {users[id].name}</div>
+      <div>User</div>
     )
   }
 }
