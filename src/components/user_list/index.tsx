@@ -1,15 +1,10 @@
 import * as React from "react";
 import { Link } from 'react-router-dom';
-import { getUsers } from '../../api/';
+import { getUserList } from '../../api/';
+import { IUserList, IUserPreview } from '../../models/userList';
 
-export interface IUser{
-  name: string;
-}
-export interface IUserData {
-  [key:string]: IUser
-}
 export interface IUserListState {
-  users: IUserData
+  users: IUserList;
   loading: boolean;
 }
 
@@ -22,24 +17,25 @@ export class UserList extends React.Component<{}, IUserListState> {
 
   public componentDidMount() {
     this.setState({loading: true})
-    getUsers().then((users: IUserData) => {
+    getUserList().then((users: IUserList) => {
       this.setState({ users, loading: false});
     });
   }
 
   public render(){
-    const {users} = this.state;
+    const {users, loading} = this.state;
     return (
-      Object.keys(users).length
-        ? Object.keys(users).map((id: string, index) => {
-          const user: IUser = (users as IUserData)[id];
+      loading
+      ? <div>Loading...</div>
+      : Object.keys(users).length && 
+        Object.keys(users).map((id: string, index) => {
+          const user: IUserPreview = (users as IUserList)[id];
           return (
             <div>
               <Link to={`/profile/${id}`}>{user.name}</Link>
             </div>
           )
         })
-        : <span>No users available</span> 
     );
   }
 }
