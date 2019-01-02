@@ -17,7 +17,7 @@ function api<T>(url: string): Promise<T> {
 export function getUserList() {
    return api<IUserList>(`${baseUrl}:${basePort}/get-user-list`)
    .catch(error => {
-       return {};
+       return null;
    });
 }
 

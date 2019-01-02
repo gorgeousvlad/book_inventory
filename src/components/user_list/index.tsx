@@ -4,15 +4,15 @@ import { getUserList } from '../../api/';
 import { IUserList, IUserPreview } from '../../models/userList';
 
 export interface IUserListState {
-  users: IUserList;
+  users: IUserList | null;
   loading: boolean;
 }
 
 export class UserList extends React.Component<{}, IUserListState> {
   
   public state = {
+    users: null,
     loading: false,
-    users: {}
   }
 
   public componentDidMount() {
@@ -27,7 +27,7 @@ export class UserList extends React.Component<{}, IUserListState> {
     return (
       loading
       ? <div>Loading...</div>
-      : Object.keys(users).length && 
+      : users !== null && 
         Object.keys(users).map((id: string, index) => {
           const user: IUserPreview = (users as IUserList)[id];
           return (

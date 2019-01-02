@@ -1,4 +1,4 @@
-export interface IUserPreview{
+export interface IUserPreview {
     name: string;
   }
 
