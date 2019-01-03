@@ -1,13 +1,15 @@
 import {  createStore as _createStore, combineReducers, applyMiddleware } from 'redux';
-import { IUserList } from '../models/userList';
-import { IUser } from '../models/user';
-import { IUserState } from './user_list';
+import { userReducer } from './user';
 import thunkMiddleware from 'redux-thunk';
 import { IState } from './types';
+import { userListReducer } from './user_list/index';
 
-export function configureStore(initialState: IState) {
+export function configureStore(initialState?: IState) {
     return _createStore(
-      combineReducers(),
+      combineReducers({
+        user: userReducer,
+        userList: userListReducer,
+      }),
       initialState,
       applyMiddleware(thunkMiddleware),
   

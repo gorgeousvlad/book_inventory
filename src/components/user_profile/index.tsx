@@ -1,37 +1,27 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import { IUser } from "../../models/user";
-import { getUser } from "../../api";
 
 interface MatchParams {
   id: string;
 }
 
-interface IUserProfileProps extends RouteComponentProps<MatchParams> {
-}
-
-interface IUserProfileState {
+interface IUserProps extends RouteComponentProps<MatchParams> {
   loading: boolean;
-  user: IUser | {};
+  user: IUser | null;
+  LoadUser(id: number): void;
 }
 
-export class UserProfile extends React.Component<IUserProfileProps, IUserProfileState> {
-  public state = {
-    user: {},
-    loading: false,
-  }
+export class User extends React.Component<IUserProps, {}> {
 
   public componentDidMount() {
     const { id } = this.props.match.params;
 
-    this.setState({loading: true})
-    getUser(Number(id)).then((user: IUser) => {
-      this.setState({ user, loading: false});
-    });
+    this.props.LoadUser(Number(id));
   }
 
   public render(){
-    const { loading, user } = this.state;
+    const { loading, user } = this.props;
     return (
       <div>
         {loading

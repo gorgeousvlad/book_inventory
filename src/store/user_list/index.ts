@@ -1,45 +1,72 @@
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { IUser } from "../../models/user";
+import { IUserList } from "../../models/userList";
 import { TThunkAction } from '../types';
+import { getUserList } from '../../api/index';
 
 
-export interface IUserState {
-    user: IUser;
+export interface IUserListState {
+    userList: IUserList | null;
     loading: boolean;
 }
 
-const defaultState: IUserState = {
-    user: null,
+const defaultState: IUserListState = {
+    userList: null,
     loading: false,
 }
 
-export interface IUserLoadingAction {
-    type: 'USER_LOADIND',
+export interface IUserListLoadingStartAction {
+    type: 'USER_LIST_LOADIND_START',
 }
 
-export interface IUserLoadSuccessAction {
-    type: 'USER_LOAD_SUCCES',
-    payload: IUser,
+export interface IUserListLoadingFinishsAction {
+    type: 'USER_LIST_LOADING_FINISH',
+    payload: IUserList | null,
 }
 
-export type IUserStateAction = IUserLoadingAction | IUserLoadSuccessAction;
+export type IUserListStateAction = IUserListLoadingStartAction | IUserListLoadingFinishsAction;
 
-function UserLoadingAction (): IUserLoadingAction {
+function UserListLoadingStartAction (): IUserListLoadingStartAction {
     return {
-      type: 'USER_LOADIND',
+      type: 'USER_LIST_LOADIND_START',
     };
 };
 
-function UserLoadSuccessAction (payload: IUser): IUserLoadSuccessAction {
+function UserListLoadingFinishAction (payload: IUserList | null): IUserListLoadingFinishsAction {
     return {
-      type: 'USER_LOAD_SUCCES',
+      type: 'USER_LIST_LOADING_FINISH',
       payload,
     };
 };
 
-function LoadUser (id: string): TThunkAction<Promise<IUserLoadSuccessAction>> {
-    return (dispatch: Dispatch) => {}
+export function LoadUserList (): TThunkAction {
+    return (dispatch: Dispatch) => {
+        dispatch(UserListLoadingStartAction());
+        
+        return getUserList()
+            .then((data: IUserList | null) => {
+                dispatch(UserListLoadingFinishAction(data));
+            })
+            .catch(error => {
+                dispatch(UserListLoadingFinishAction(null));
+            })
+    }
+}
+
+export function userListReducer(state:IUserListState = defaultState, action: IUserListStateAction): IUserListState {
+    switch (action.type) {
+        case 'USER_LIST_LOADIND_START':
+            return {
+                ...state,
+                loading: true,
+            };
+        case 'USER_LIST_LOADING_FINISH': {
+            return {
+                userList: action.payload,
+                loading: false, 
+            }
+        }
+    }
 }
 
 

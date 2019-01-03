@@ -1,14 +1,14 @@
-import { IUserState, IUserStateAction } from "./user_list";
-import { IUser } from "../models/user";
-import { Reducer, Store, createStore as _createStore, combineReducers, applyMiddleware, ReducersMapObject } from 'redux';
+import { IUserListState, IUserListStateAction } from "./user_list";
+import { Reducer, Store, createStore as _createStore, ReducersMapObject } from 'redux';
 import thunkMiddleware, { ThunkAction } from 'redux-thunk';
+import { IUserState, IUserStateAction } from "./user";
 
 export interface IState {
-  userList: IUserState;
-  userProfile: IUser;
+  userList: IUserListState;
+  user: IUserState;
 }
 
-export type TReduxActions = IUserStateAction;
+export type TReduxActions = IUserListStateAction | IUserStateAction;
 export type TReduxStore = Store<IState, TReduxActions>;
 export type TReduxReducer = Reducer<TReduxStore, TReduxActions>;
 export type TReducersMapObject = ReducersMapObject<TReduxStore, TReduxActions>
