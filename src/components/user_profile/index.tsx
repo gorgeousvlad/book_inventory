@@ -26,7 +26,7 @@ export class User extends React.Component<IUserProps, {}> {
       <div>
         {loading
         ? <div>Loading...</div>
-        : Object.keys(user).length &&
+        : user !== null &&
           <div>
             {(user as IUser).name}
           </div>

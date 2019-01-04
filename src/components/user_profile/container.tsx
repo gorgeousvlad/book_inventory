@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { User } from './index';
-import { IState } from '../../store/types';
-import { Dispatch } from 'redux';
+import { IState, TThunkDispatch } from '../../store/types';
 import { LoadUser } from '../../store/user';
 
 
@@ -11,7 +10,7 @@ export const UserContainer = connect(
       ...state.user,
     }
   },
-  (dispatch: Dispatch) => {
+  (dispatch: TThunkDispatch) => {
     return {
       LoadUser: (id: number) => dispatch(LoadUser(id)),
     }

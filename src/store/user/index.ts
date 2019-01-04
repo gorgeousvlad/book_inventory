@@ -66,6 +66,9 @@ export function userReducer(state:IUserState = defaultState, action: IUserStateA
                 loading: false, 
             }
         }
+
+        default: 
+            return state;
     }
 }
 

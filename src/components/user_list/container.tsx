@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { UserList } from './index';
-import { IState } from '../../store/types';
+import { IState, TThunkDispatch } from '../../store/types';
 import { LoadUserList } from '../../store/user_list/index';
 import { Dispatch } from 'redux';
 
@@ -11,7 +11,7 @@ export const UserListContainer = connect(
       ...state.userList,
     }
   },
-  (dispatch: Dispatch) => {
+  (dispatch: TThunkDispatch) => {
     return {
       LoadUserList: () => dispatch(LoadUserList()),
     }

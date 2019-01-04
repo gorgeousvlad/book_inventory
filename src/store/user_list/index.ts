@@ -66,6 +66,8 @@ export function userListReducer(state:IUserListState = defaultState, action: IUs
                 loading: false, 
             }
         }
+        default:
+            return state;
     }
 }
 
