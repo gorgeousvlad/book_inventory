@@ -9,7 +9,9 @@
     "lib":[
       "dom",
       "es2017",
-    ]
+    ],
+    "typeRoots": ["node_modules/@types", "./src/typings"],
+    "resolveJsonModule": true,
   },
   "include":[
     "src/*.tsx",

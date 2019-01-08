@@ -14,7 +14,7 @@ const frontConfig = {
         exclude: /node_modules/
       },
       { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
-    ]
+    ],
   },
   resolve: {
     extensions: [ '.tsx', '.ts', '.js', '.json']
