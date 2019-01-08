@@ -5,9 +5,13 @@ import * as userList from './data/userList.json';
 
 const app = express();
 app.use('/dist', express.static(__dirname + '/../dist'));
+app.set( "views", join( __dirname, "views"));
+app.set('view engine', 'ejs');
 
 app.get(['/', '/list', '/profile/:id'], (req: express.Request, res: express.Response) => {
-    res.sendFile(join(__dirname, '..', 'index.html'));
+    res.render('index',{
+        pageTitle: 'Users Viewer',
+    });
 });
 
 app.get('/get-user-list', (req: express.Request, res: express.Response) => {
