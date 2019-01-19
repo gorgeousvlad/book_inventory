@@ -56,6 +56,28 @@ app.post('/add-book', (req: express.Request, res: express.Response) => {
     })
 });
 
+app.get('/delete-book', (req: express.Request, res: express.Response) => {
+  const id = req.query.id;
+  if (!id) {
+    res.status(400);
+    res.send({error:'DeleteError', message:'wrong id'});
+  }
+  Book.findOneAndDelete({_id: id})
+    .then((data) => {
+      if(data) {
+          res.sendStatus(200);
+      } else {
+          res.status(400);
+          res.send({error:'Not found', message: `Book ${id} was not found`})
+      }
+    })
+    .catch(err => {
+        console.log("Error",err)
+        res.status(500);
+        res.send(err);
+    })
+});
+
 app.get(['/', '/list', '/profile/:id'], (req: express.Request, res: express.Response) => {
   res.render('index',{
     pageTitle: 'Users Viewer',

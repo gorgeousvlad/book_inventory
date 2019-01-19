@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rimraf dist/* server/bundle.js",
     "watch:client": "webpack --config webpack.client.config.js --watch",
-    "server": "webpack --config webpack.server.config.js && node ./server/bundle.js",
+    "server": "webpack --config webpack.server.config.js && nodemon ./server/bundle.js",
     "start:dev": "npm run clean && npm-run-all --parallel watch:client server",
     "build:client": "webpack --config webpack.client.config.js",
     "build:server": "webpack --config webpack.server.config.js",
@@ -24,6 +24,7 @@
     "css-loader": "^1.0.0",
     "json-loader": "^0.5.7",
     "lodash": "^4.17.11",
+    "nodemon": "^1.18.9",
     "npm-run-all": "^4.1.5",
     "rimraf": "^2.6.3",
     "source-map-loader": "^0.2.4",
