@@ -78,6 +78,31 @@ app.get('/delete-book', (req: express.Request, res: express.Response) => {
     })
 });
 
+app.post('/update-book',  (req: express.Request, res: express.Response) => {
+  
+  if (!req.body || !req.body.id) {
+    res.sendStatus(400);
+  }
+
+  const { id }  = req.body;
+  const bookData: IBook = pickBookKeys(req.body);
+  
+  Book.findOneAndUpdate({_id: id}, bookData, {new: true})
+    .then((data) => {
+      if(data) {
+        res.sendStatus(200);
+      } else {
+        res.status(400);
+        res.send({error:'Not found', message: `Book ${id} was not found`})
+      }
+    })
+    .catch((err) => {
+        console.log("Error",err)
+        res.status(500);
+        res.send(err);
+    })
+});
+
 app.get(['/', '/list', '/profile/:id'], (req: express.Request, res: express.Response) => {
   res.render('index',{
     pageTitle: 'Users Viewer',
@@ -98,4 +123,9 @@ app.get('/get-user', (req: express.Request, res: express.Response) => {
     res.status(400);
     res.send(`User with id ${id} was not found`)
   }
+});
+
+process.on("SIGINT", () => {
+  mongoose.disconnect();
+  process.exit();
 });
