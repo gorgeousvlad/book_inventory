@@ -20,4 +20,18 @@ export const BookSchema = new Schema({
   language: String,
 });
 
-export const Book: Model<IBookModel> = model<IBookModel>('Book',BookSchema);
+export type TBookModel = Model<IBookModel>
+
+export const Book: TBookModel = model<IBookModel>('Book',BookSchema);
+
+export function pickBookKeys (data:any): IBook {
+  const keys = ['name' ,'author', 'price', 'year', 'publishing', 'language'];
+
+  return Object.keys(data).reduce((res: IBook, key: string) =>{
+    if (keys.includes(key)) {
+      res[key] = data[key]
+    }
+    return res;
+  }, {} as IBook )
+  
+}

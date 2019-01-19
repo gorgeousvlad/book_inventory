@@ -1,11 +1,12 @@
 import * as mongoose from 'mongoose';
 import * as express from 'express';
 import { join } from 'path';
+import * as bodyParser from 'body-parser';
 import * as config from './config.json';
 import * as users from './data/users.json';
 import * as userList from './data/userList.json';
 import { getDbConnectionUrl, IDbConfig, connectToDb } from './db/utils';
-import { Book } from './db/models';
+import { Book, IBookModel, TBookModel, BookSchema, pickBookKeys, IBook } from './db/models';
 
 const app = express();
 
@@ -15,17 +16,46 @@ connectToDb({
 });
 
 app.use('/dist', express.static(__dirname + '/../dist'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.set( "views", join( __dirname, "views"));
 app.set('view engine', 'ejs');
 
-app.get('/books', (req: express.Request, res: express.Response) => {
-    Book.find({})
+
+app.get('/get-books',  (req: express.Request, res: express.Response) => {
+    const id = req.query.id;
+    console.log('id',id);
+    const query = id ? {_id: id} : {}
+    Book.find(query)
     .then((data) => {
-        res.send(data);
+        if(data && data.length) {
+            res.send(data);
+        } else {
+            res.status(400);
+            res.send({error:'Not found', message: `Book ${id} was not found`})
+        }
     })
+    .catch(err => {
+        console.log("Error",err)
+        res.status(500);
+        res.send(err);
+    })
+});
+
+app.post('/add-book', (req: express.Request, res: express.Response) => {
+    if (!req.body) {
+        res.sendStatus(400);
+    }
+    const bookData: IBook = pickBookKeys(req.body);
+    const book = new Book(bookData);
+    book.save()
+    .then(() => res.sendStatus(200))
     .catch((err) => {
-        res.send('Error getting books');
+        console.log("Error",err)
+        res.status(500);
+        res.send(err);
     })
+
 });
 
 app.get(['/', '/list', '/profile/:id'], (req: express.Request, res: express.Response) => {
