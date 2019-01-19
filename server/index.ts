@@ -11,8 +11,8 @@ import { Book, IBookModel, TBookModel, BookSchema, pickBookKeys, IBook } from '.
 const app = express();
 
 connectToDb({
-    config: config.db as IDbConfig,
-    cb: () => app.listen(3000, () => { console.log("Started on port 3000")}) 
+  config: config.db as IDbConfig,
+  cb: () => app.listen(3000, () => { console.log("Started on port 3000")}) 
 });
 
 app.use('/dist', express.static(__dirname + '/../dist'));
@@ -23,10 +23,9 @@ app.set('view engine', 'ejs');
 
 
 app.get('/get-books',  (req: express.Request, res: express.Response) => {
-    const id = req.query.id;
-    console.log('id',id);
-    const query = id ? {_id: id} : {}
-    Book.find(query)
+  const id = req.query.id;
+  const query = id ? {_id: id} : {}
+  Book.find(query)
     .then((data) => {
         if(data && data.length) {
             res.send(data);
@@ -43,40 +42,38 @@ app.get('/get-books',  (req: express.Request, res: express.Response) => {
 });
 
 app.post('/add-book', (req: express.Request, res: express.Response) => {
-    if (!req.body) {
-        res.sendStatus(400);
-    }
-    const bookData: IBook = pickBookKeys(req.body);
-    const book = new Book(bookData);
-    book.save()
+  if (!req.body) {
+      res.sendStatus(400);
+  }
+  const bookData: IBook = pickBookKeys(req.body);
+  const book = new Book(bookData);
+  book.save()
     .then(() => res.sendStatus(200))
     .catch((err) => {
         console.log("Error",err)
         res.status(500);
         res.send(err);
     })
-
 });
 
 app.get(['/', '/list', '/profile/:id'], (req: express.Request, res: express.Response) => {
-    res.render('index',{
-        pageTitle: 'Users Viewer',
-    });
+  res.render('index',{
+    pageTitle: 'Users Viewer',
+  });
 });
 
 app.get('/get-user-list', (req: express.Request, res: express.Response) => {
-    res.send((userList as any).userList);
+  res.send((userList as any).userList);
 });
 
 app.get('/get-user', (req: express.Request, res: express.Response) => {
-    const id = req.query.id;
-    const usersBase = (users as any).users
+  const id = req.query.id;
+  const usersBase = (users as any).users
 
-    if (Object.keys(usersBase).includes(id)){
-        res.send(usersBase[id]);
-    } else {
-        res.status(400);
-        res.send(`User with id ${id} was not found`)
-    }
-
+  if (Object.keys(usersBase).includes(id)){
+    res.send(usersBase[id]);
+  } else {
+    res.status(400);
+    res.send(`User with id ${id} was not found`)
+  }
 });
