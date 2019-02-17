@@ -1,5 +1,4 @@
-import { IUserList } from "../models/userList";
-import { IUser } from '../models/user';
+import { IBook } from '../../server/db/models';
 
 const baseUrl = 'http://localhost';
 const basePort = '3000';
@@ -14,16 +13,18 @@ function api<T>(url: string): Promise<T> {
     })
 }
 
-export function getUserList() {
-   return api<IUserList>(`${baseUrl}:${basePort}/get-user-list`)
-   .catch(error => {
-       return null;
-   });
-}
+export type TBookRecord = IBook & {_id: string} 
 
-export function getUser(id: number) {
-  return api<IUser>(`${baseUrl}:${basePort}/get-user?id=${id}`)
+//there will be different apis for book list and book in future
+export function getBooks() {
+  return api<TBookRecord[]>(`${baseUrl}:${basePort}/get-books`)
   .catch(error => {
       return null;
   });
+}
+
+export function getBookById(id: string) {
+  return api<TBookRecord[]>(`${baseUrl}:${basePort}/get-books?id=${id}`)
+  .then(response => response[0])
+  .catch(error => { return null; });
 }

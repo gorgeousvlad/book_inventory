@@ -1,18 +1,18 @@
 import { connect } from 'react-redux';
-import { User } from './index';
 import { IState, TThunkDispatch } from '../../store/types';
-import { LoadUser } from '../../store/user';
+import { LoadBook } from '../../store/book';
+import { Book } from '.';
 
 
-export const UserContainer = connect(
+export const BookContainer = connect(
   (state: IState) => {
     return {
-      ...state.user,
+      ...state.book,
     }
   },
   (dispatch: TThunkDispatch) => {
     return {
-      LoadUser: (id: number) => dispatch(LoadUser(id)),
+      LoadBook: (id: string) => dispatch(LoadBook(id)),
     }
   }
-)(User);
+)(Book);

@@ -1,7 +1,5 @@
 import * as express from 'express';
 import { Book, pickBookKeys, IBook } from '../db/models';
-import * as users from '../data/users.json';
-import * as userList from '../data/userList.json';
 
 export function getBooks (req: express.Request, res: express.Response) {
   const id = req.query.id;
@@ -86,21 +84,7 @@ export function updateBook (req: express.Request, res: express.Response) {
 
 export function getPages (req: express.Request, res: express.Response) {
   res.render('index',{
-    pageTitle: 'Users Viewer',
+    pageTitle: 'Book Inventory',
   });
 };
-export function getUserList (req: express.Request, res: express.Response) {
-  res.send((userList as any).userList);
-};
 
-export function getUser (req: express.Request, res: express.Response) {
-  const id = req.query.id;
-  const usersBase = (users as any).users
-
-  if (Object.keys(usersBase).includes(id)){
-    res.send(usersBase[id]);
-  } else {
-    res.status(400);
-    res.send(`User with id ${id} was not found`)
-  }
-};

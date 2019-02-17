@@ -1,15 +1,15 @@
-import { IUserListState, IUserListStateAction } from "./user_list";
 import { Reducer, Store, createStore as _createStore, ReducersMapObject } from 'redux';
 import thunkMiddleware, { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { IUserState, IUserStateAction } from "./user";
+import { IBookListState, IBookListStateAction } from "./book_list";
+import { IBookState, IBookStateAction } from './book/index';
 
 
 export interface IState {
-  userList: IUserListState;
-  user: IUserState;
+  books: IBookListState;
+  book: IBookState;
 }
 
-export type TReduxActions = IUserListStateAction | IUserStateAction;
+export type TReduxActions = IBookListStateAction | IBookStateAction;
 export type TReduxStore = Store<IState, TReduxActions>;
 export type TReduxReducer = Reducer<TReduxStore, TReduxActions>;
 export type TReducersMapObject = ReducersMapObject<TReduxStore, TReduxActions>
