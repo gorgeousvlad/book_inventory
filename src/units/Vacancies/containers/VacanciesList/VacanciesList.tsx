@@ -15,7 +15,7 @@ export interface VacanciesListStoreProps {
 }
 
 export interface VacanciesListDispatchProps {
-    fetchVacancies: ()=> void;
+    fetchVacancies: () => void;
     fetchIndustries: ()=> void;
 }
 
@@ -24,19 +24,15 @@ export type VacanciesListProps = VacanciesListStoreProps & VacanciesListDispatch
 const b = getClassName.bind(null, 'VacanciesList');
 
 const VacanciesList: React.FC<VacanciesListProps> = ({vacancies, vacanciesLoading, fetchVacancies}) => {
-    // const [filters, setFilters] = useState({industryId: null})
     React.useEffect(() => {
         fetchVacancies();
     }, []);
 
-    console.log('VACANCIES', vacancies);
     return (
         <section className={b()}>
             <h2>Поиск вакансий</h2>
-            {/* <Filters industries={industries} onChange={fetchVacancies}/> */}
             <h3>Найдены вакансии</h3>
             <div className={b('wrapper')}>
-                {/* {vacancies.map((vacancy) => <Vacancy key={vacancy.id }data={vacancy}/>)} */}
                 {vacanciesLoading || !vacancies
                     ? 'Loading...'
                     : vacancies.items && vacancies.items.map((vacancy) => <div key={vacancy.id}>{vacancy.name}</div>)

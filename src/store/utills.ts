@@ -1,14 +1,14 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { Dispatch } from 'redux';
 
-import { BaseAction, TThunkAction, StateFetchData } from './types';
+import { BaseAction, TThunkAction, StateFetchData, ReqData } from './types';
 
 const initialFetchState: StateFetchData = {
     loading: false,
 }
 
 export function createFetchAction(entityName: string, reqConfig: AxiosRequestConfig) {
-    return (reqData: Partial<Pick<AxiosRequestConfig,'data' | 'params'>> = {}): TThunkAction => {
+    return (reqData: ReqData = {}): TThunkAction => {
         return async (dispatch: Dispatch) => {
             dispatch({type: `${entityName}_START`});
 
@@ -20,8 +20,7 @@ export function createFetchAction(entityName: string, reqConfig: AxiosRequestCon
             dispatch({type:`${entityName}_ERROR`, payload: error.message})
             }
         }
-    }
-       
+    }  
   } 
 
   export function createFetchReducer<TData, TAction extends BaseAction>(entityName: string) {
