@@ -1,12 +1,25 @@
 import { Reducer, Store, createStore as _createStore, ReducersMapObject } from 'redux';
-import thunkMiddleware, { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { IBookListState, IBookListStateAction } from "./book_list";
 import { IBookState, IBookStateAction } from './book/index';
+import { VacanciesState } from '../units/Vacancies/models';
 
 
 export interface IState {
   books: IBookListState;
   book: IBookState;
+  vacancies: VacanciesState;
+}
+
+export interface BaseAction {
+  type: string;
+  payload?: any;
+}
+
+export interface StateFetchData<T = any> {
+  loading: boolean;
+  data?: T;
+  error?: string;
 }
 
 export type TReduxActions = IBookListStateAction | IBookStateAction;

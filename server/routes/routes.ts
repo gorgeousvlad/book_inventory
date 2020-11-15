@@ -88,3 +88,10 @@ export function getPages (req: express.Request, res: express.Response) {
   });
 };
 
+export function getRoot (req: express.Request, res: express.Response) {
+  res.render('index',{
+    pageTitle: 'Application',
+  });
+};
+
+
